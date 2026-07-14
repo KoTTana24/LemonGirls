@@ -20,7 +20,7 @@ add_executable(
         src/core/Chat.cpp
         src/core/Memory.cpp
         src/core/ChatManager.cpp
-        src/core/Gender.h
+        src/core/CharacterManager.cpp
 
 )
 

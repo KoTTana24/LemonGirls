@@ -2,109 +2,59 @@
 
 #include "core/ChatManager.h"
 
+int main() {
 
+  ChatManager manager;
 
-int main()
-{
+  Character alice("Alice", Gender::Female, 18);
 
-    ChatManager manager;
+  Character bob("Bob", Gender::Male, 40);
 
+  manager.addChat(alice);
+  manager.addChat(bob);
 
-    Character alice(
-        "Alice",
-        Gender::Female,
-        18
-    );
+  while (true) {
 
+    manager.showChats();
 
-    Character bob(
-        "Bob",
-        Gender::Male,
-        30
-    );
+    std::cout << "\nChoose chat: ";
 
+    int choice;
 
-    manager.addChat(alice);
-    manager.addChat(bob);
+    std::cin >> choice;
 
+    std::cin.ignore();
 
+    if (choice == 0) {
+      break;
+    }
 
-    while(true)
-    {
+    if (!manager.selectChat(choice)) {
+      std::cout << "Wrong choice\n";
 
-        manager.showChats();
+      continue;
+    }
 
+    Chat *chat = manager.getCurrentChat();
 
-        std::cout
-            << "\nChoose chat: ";
+    std::string text;
 
+    while (true) {
 
-        int choice;
-
-        std::cin >> choice;
-
-
-        std::cin.ignore();
-
-
-
-        if(choice == 0)
-        {
-            break;
-        }
-
-
-
-        if(!manager.selectChat(choice))
-        {
-            std::cout
-                << "Wrong choice\n";
-
-            continue;
-        }
-
-
-
-        Chat* chat =
-            manager.getCurrentChat();
-
-
-
-        std::string text;
-
-
-        while(true)
-        {
-
-            std::cout
-                << "\n"
+      std::cout << "\n"
                 << "You"
                 << ": ";
 
+      getline(std::cin, text);
 
-            getline(
-                std::cin,
-                text
-            );
+      if (text == "exit") {
+        break;
+      }
 
-
-            if(text == "exit")
-            {
-                break;
-            }
-
-
-            std::cout
-                << chat->getCharacter().getName()
-                << ": "
-                << chat->send(text)
-                << "\n";
-
-        }
-
+      std::cout << "\n" + chat->getCharacter().getName() << ": "
+                << chat->send(text) << "\n";
     }
+  }
 
-
-
-    return 0;
+  return 0;
 }
