@@ -59,8 +59,9 @@ AICompanion
 # Editor
 # ==========================================
 
-.vscode/
-.idea/
+*.vscode/
+*.idea/
+*.build/
 *.swp
 *.swo
 *~
