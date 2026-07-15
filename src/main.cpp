@@ -8,7 +8,7 @@ int main() {
 
   Character alice("Alice", Gender::Female, 18);
 
-  Character bob("Bob", Gender::Male, 40);
+  Character bob("Bob", Gender::Male, 25);
 
   manager.addChat(alice);
   manager.addChat(bob);

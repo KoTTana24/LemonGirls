@@ -61,7 +61,8 @@ AICompanion
 
 *.vscode/
 *.idea/
-*.build/
+*build/
+*tests/
 *.swp
 *.swo
 *~
