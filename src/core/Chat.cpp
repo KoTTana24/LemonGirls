@@ -1,11 +1,10 @@
 #include "Chat.h"
+#include <filesystem>
+#include <iostream>
 
 #include <nlohmann/json.hpp>
 
-
 using json = nlohmann::json;
-
-
 
 Chat::Chat(
     const Character& character
@@ -13,9 +12,9 @@ Chat::Chat(
 :
 character(character),
 memory(
-    "data/chats/"
-    + character.getName()
-    + ".json"
+    "data/chats/" +
+    character.getId() +
+    ".json"
 )
 {
 
@@ -28,80 +27,41 @@ memory(
     }
     else
     {
-
         history.push_back(
         {
             "system",
             character.getSystemPrompt()
         });
-
     }
 
 }
 
+std::string Chat::send(const std::string &message) {
 
+  history.push_back({"user", message});
 
-std::string Chat::send(
-    const std::string& message
-)
-{
+  std::string response = client.chat(history);
 
-    history.push_back(
-    {
-        "user",
-        message
-    });
+  try {
 
+    json result = json::parse(response);
 
+    std::string answer = result["message"]["content"];
 
-    std::string response =
-        client.chat(history);
+    history.push_back({"assistant", answer});
 
+    memory.save(history);
+    
+    //memory.save(history);
 
+    return answer;
 
-    try
-    {
+  }
 
-        json result =
-            json::parse(response);
+  catch (const std::exception &e) {
 
-
-
-        std::string answer =
-            result["message"]["content"];
-
-
-
-        history.push_back(
-        {
-            "assistant",
-            answer
-        });
-
-
-
-        memory.save(history);
-
-
-
-        return answer;
-
-    }
-
-    catch(const std::exception& e)
-    {
-
-        return
-            "Error parsing AI response: "
-            + std::string(e.what());
-
-    }
-
+    return "Error parsing AI response: " + std::string(e.what());
+  }
 }
 
-
-
-const Character& Chat::getCharacter() const
-{
-    return character;
-}
+const Character &Chat::getCharacter() const { return character; }

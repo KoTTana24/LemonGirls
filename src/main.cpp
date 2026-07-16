@@ -1,21 +1,28 @@
 #include <iostream>
 
+#include "core/CharacterManager.h"
 #include "core/ChatManager.h"
 
 int main() {
 
-  ChatManager manager;
+  CharacterManager characterManager;
 
-  Character alice("Alice", Gender::Female, 18);
+  characterManager.loadCharacters();
 
-  Character bob("Bob", Gender::Male, 25);
+  if (characterManager.getCharacters().empty()) {
 
-  manager.addChat(alice);
-  manager.addChat(bob);
+    characterManager.createCharacter("Alice", Gender::Female, 18);
+
+    characterManager.createCharacter("Bob", Gender::Male, 25);
+  }
+
+  ChatManager chatManager;
+
+  chatManager.loadFromCharacters(characterManager);
 
   while (true) {
 
-    manager.showChats();
+    chatManager.showChats();
 
     std::cout << "\nChoose chat: ";
 
@@ -29,21 +36,19 @@ int main() {
       break;
     }
 
-    if (!manager.selectChat(choice)) {
+    if (!chatManager.selectChat(choice)) {
       std::cout << "Wrong choice\n";
 
       continue;
     }
 
-    Chat *chat = manager.getCurrentChat();
-
-    std::string text;
+    Chat *chat = chatManager.getCurrentChat();
 
     while (true) {
 
-      std::cout << "\n"
-                << "You"
-                << ": ";
+      std::string text;
+
+      std::cout << "\n" << "You" << ": ";
 
       getline(std::cin, text);
 
@@ -51,8 +56,9 @@ int main() {
         break;
       }
 
-      std::cout << "\n" + chat->getCharacter().getName() << ": "
-                << chat->send(text) << "\n";
+      std::cout << "\n"
+                << chat->getCharacter().getName() << ": " << chat->send(text)
+                << "\n";
     }
   }
 

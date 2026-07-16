@@ -1,41 +1,26 @@
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
 
+#include "CharacterManager.h"
 #include "Chat.h"
 
-
-
-class ChatManager
-{
+class ChatManager {
 
 private:
+  std::vector<std::unique_ptr<Chat>> chats;
 
-    std::vector<std::unique_ptr<Chat>> chats;
-
-    int currentChat;
-
+  int currentChat;
 
 public:
+  ChatManager();
 
-    ChatManager();
+  void loadFromCharacters(CharacterManager &manager);
 
+  void showChats();
 
-    void addChat(
-        const Character& character
-    );
+  bool selectChat(int index);
 
-
-    void showChats();
-
-
-    bool selectChat(
-        int index
-    );
-
-
-    Chat* getCurrentChat();
-
-
+  Chat *getCurrentChat();
 };

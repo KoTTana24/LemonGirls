@@ -25,6 +25,7 @@ add_executable(
         src/core/Memory.cpp
         src/core/ChatManager.cpp
         src/core/CharacterManager.cpp
+        
 )
 
 
@@ -68,6 +69,9 @@ add_executable(
         LemonGirlsTests
 
         tests/CharacterTest.cpp
+        tests/CharacterManagerTest.cpp
+        tests/MemoryTest.cpp
+        tests/ChatTest.cpp
 
         src/core/Character.cpp
         src/core/Chat.cpp
